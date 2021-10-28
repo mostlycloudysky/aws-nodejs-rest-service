@@ -15,6 +15,10 @@ Resources:
       PackageType: Image
       Architectures:
       - x86_64
+      Policies:
+      - AWSSecretsManagerGetSecretValuePolicy:
+          SecretArn:
+            Fn::Sub: arn:aws:secretsmanager:${AWS::Region}:${AWS::AccountId}:secret:openweatherapi-mSlPys
       Events:
         HelloWorld:
           Type: Api
