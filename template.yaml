@@ -20,12 +20,21 @@ Resources:
       Policies:
         - AWSSecretsManagerGetSecretValuePolicy:
             SecretArn: !Sub "arn:aws:secretsmanager:${AWS::Region}:${AWS::AccountId}:secret:openweatherapi-mSlPys"
+        - SESCrudPolicy: { IdentityName: Sandeep.Yaramchitti }
+        - SESCrudPolicy: { IdentityName: ysandeepkumar88@gmail.com }
       Events:
         HelloWorld:
           Type: Api
           Properties:
-            Path: /hello
+            Path: /weatherdata
             Method: get
+            RequestParameters:
+              - method.request.querystring.zipcode:
+                  Required: true
+                  Caching: true
+              - method.request.querystring.coutry:
+                  Required: true
+                  Caching: true
     Metadata:
       DockerTag: nodejs14.x-v1
       DockerContext: ./hello-world
@@ -37,7 +46,7 @@ Outputs:
   # https://github.com/awslabs/serverless-application-model/blob/master/docs/internals/generated_resources.rst#api
   HelloWorldApi:
     Description: "API Gateway endpoint URL for Prod stage for Hello World function"
-    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/hello/"
+    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/weatherdata/"
   HelloWorldFunction:
     Description: "Hello World Lambda Function ARN"
     Value: !GetAtt HelloWorldFunction.Arn
